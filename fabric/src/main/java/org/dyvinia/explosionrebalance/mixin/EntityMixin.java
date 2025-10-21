@@ -4,7 +4,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.Creeper;
 import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
 import org.dyvinia.explosionrebalance.config.Config;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
