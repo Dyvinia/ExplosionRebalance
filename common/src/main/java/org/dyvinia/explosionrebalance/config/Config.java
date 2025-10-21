@@ -19,6 +19,7 @@ public class Config {
     public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
     public final ModConfigSpec.ConfigValue<Double> knockbackUp;
     public final ModConfigSpec.ConfigValue<Double> falloffExponent;
+    public final ModConfigSpec.ConfigValue<Double> falloffExtension;
 
 
     private Config(ModConfigSpec.Builder builder) {
@@ -50,8 +51,8 @@ public class Config {
                 .define("EnableTNTKnockback", true);
         tntKnockbackMult = builder
                 .comment(" Multiplier for extra knockback caused by TNT explosions.")
-                .comment(" Default: 1.0")
-                .define("TNTKnockbackMultiplier", 1.0);
+                .comment(" Default: 1.25")
+                .define("TNTKnockbackMultiplier", 1.25);
         builder.pop();
 
         builder.pop();
@@ -59,20 +60,27 @@ public class Config {
         builder.comment(" Controls aspects of the added knockback").push("Knockback");
         knockbackStrength = builder
                 .comment(" Strength of extra knockback caused by the explosion.")
-                .comment(" Default: 4.0")
-                .define("KnockbackStrength", 4.0);
+                .comment(" Default: 3.0")
+                .define("KnockbackStrength", 3.0);
         playerKnockbackMult = builder
                 .comment(" Multiplier of extra knockback caused by the explosion to players.")
-                .comment(" Default: 0.85")
-                .define("PlayerKnockbackMultiplier", 0.85);
+                .comment(" Default: 0.9")
+                .define("PlayerKnockbackMultiplier", 0.9);
         knockbackUp = builder
                 .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.")
                 .comment(" Default: 0.1")
                 .define("KnockbackUp", 0.1);
+        builder.pop();
+
+        builder.comment(" Controls the falloff used for knockback and damage").push("Falloff");
         falloffExponent = builder
                 .comment(" Exponent used for calculating the falloff.")
+                .comment(" Default: 2.0")
+                .define("FalloffExponent", 2.0);
+        falloffExtension = builder
+                .comment(" Multiplies the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
                 .comment(" Default: 2.5")
-                .define("FalloffExponent", 2.5);
+                .define("FalloffExtension", 2.5);
         builder.pop();
     }
 

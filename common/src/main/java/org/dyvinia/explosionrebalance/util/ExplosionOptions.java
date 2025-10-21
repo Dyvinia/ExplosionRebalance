@@ -22,8 +22,12 @@ public record ExplosionOptions(
     public double knockbackUp() {
         return Config.CONFIG.knockbackUp.get();
     }
+
     public double falloffExponent() {
         return Config.CONFIG.falloffExponent.get();
+    }
+    public double falloffExtension() {
+        return Config.CONFIG.falloffExtension.get();
     }
 
     @Nullable
@@ -33,7 +37,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableCreeperGriefing.get(),
                     Config.CONFIG.enableCreeperKnockback.get(),
                     Config.CONFIG.creeperKnockbackMult.get(),
-                    (creeper.isPowered() ? 2f : 1f) * 4f
+                    (creeper.isPowered() ? 2f : 1f) * 3f
             );
         }
         else if (ent instanceof PrimedTnt || ent instanceof MinecartTNT) {
@@ -41,7 +45,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableTNTGriefing.get(),
                     Config.CONFIG.enableTNTKnockback.get(),
                     Config.CONFIG.tntKnockbackMult.get(),
-                    16f
+                    4f
             );
         }
 

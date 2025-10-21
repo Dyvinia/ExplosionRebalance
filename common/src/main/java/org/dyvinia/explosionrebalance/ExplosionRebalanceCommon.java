@@ -16,7 +16,7 @@ public class ExplosionRebalanceCommon {
 
     public static void addKnockback(Entity target, Entity exploder, ExplosionOptions options) {
         float distance = target.distanceTo(exploder);
-        double power = 1.0 - Math.pow(distance/options.radius(), options.falloffExponent());
+        double power = 1.0 - Math.pow(distance/(options.radius() * options.falloffExtension()), options.falloffExponent());
 
         if (power > 0) {
             double knockback = power;
