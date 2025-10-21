@@ -4,10 +4,7 @@
   "package": "org.dyvinia.explosionrebalance.mixin",
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "LevelMixin",
-    "EntityMixin"
-  ],
+  "mixins": [],
   "client": [],
   "server": [],
   "injectors": {
