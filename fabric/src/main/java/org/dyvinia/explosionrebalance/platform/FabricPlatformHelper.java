@@ -1,7 +1,7 @@
 package org.dyvinia.explosionrebalance.platform;
 
-import org.dyvinia.explosionrebalance.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import org.dyvinia.explosionrebalance.platform.services.IPlatformHelper;
 
 public class FabricPlatformHelper implements IPlatformHelper {
 

@@ -8,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
-
 import org.dyvinia.explosionrebalance.util.ExplosionOptions;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

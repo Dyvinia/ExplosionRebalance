@@ -5,8 +5,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.dyvinia.explosionrebalance.platform.Services;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.Items;
 
 public class ExplosionRebalanceCommon {
 

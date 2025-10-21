@@ -1,8 +1,8 @@
 package org.dyvinia.explosionrebalance.platform;
 
-import org.dyvinia.explosionrebalance.platform.services.IPlatformHelper;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import org.dyvinia.explosionrebalance.platform.services.IPlatformHelper;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
