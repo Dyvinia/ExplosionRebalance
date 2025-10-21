@@ -2,11 +2,9 @@ package org.dyvinia.explosionrebalance.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
 import org.dyvinia.explosionrebalance.config.Config;
+import org.dyvinia.explosionrebalance.util.ExplosionOptions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +17,7 @@ public class EntityMixin {
         if (!((Entity)(Object)this instanceof LivingEntity target))
             return;
 
-        Config.Options options = Config.CONFIG.getOptions(exploder);
+        ExplosionOptions options = ExplosionOptions.from(exploder);
         if (options != null && options.knockback())
             ExplosionRebalanceCommon.applyKnockback(target, exploder, options.radius(), Config.CONFIG);
     }

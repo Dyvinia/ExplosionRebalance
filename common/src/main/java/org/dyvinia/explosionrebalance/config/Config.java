@@ -1,12 +1,7 @@
 package org.dyvinia.explosionrebalance.config;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.Nullable;
 
 public class Config {
     public static final Config CONFIG;
@@ -77,29 +72,5 @@ public class Config {
 
         CONFIG = pair.getLeft();
         CONFIG_SPEC = pair.getRight();
-    }
-
-    public record Options(
-            boolean griefing,
-            boolean knockback,
-            float radius
-    ) {}
-
-    @Nullable
-    public Options getOptions(@Nullable Entity ent) {
-        if (ent instanceof Creeper creeper)
-            return new Options(
-                    !disableCreeperGriefing.get(),
-                    enableCreeperKnockback.get(),
-                    (creeper.isPowered() ? 2f : 1f) * 4f
-            );
-        else if (ent instanceof PrimedTnt || ent instanceof MinecartTNT)
-            return new Options(
-                    !disableTNTGriefing.get(),
-                    enableTNTKnockback.get(),
-                    16f
-            );
-
-        return null;
     }
 }
