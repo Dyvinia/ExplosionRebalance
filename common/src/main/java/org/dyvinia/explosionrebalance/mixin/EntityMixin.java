@@ -19,14 +19,8 @@ public class EntityMixin {
         if (!((Entity)(Object)this instanceof LivingEntity target))
             return;
 
-        float radius = -1;
-
-        if (exploder instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get())
-            radius = (creeper.isPowered() ? 2f : 1f) * 4f;
-        else if ((exploder instanceof PrimedTnt || exploder instanceof MinecartTNT) && Config.CONFIG.enableTNTKnockback.get())
-            radius = 16f;
-
-        if (radius > 0)
-            ExplosionRebalanceCommon.applyKnockback(target, exploder, radius, Config.CONFIG);
+        Config.Options options = Config.CONFIG.getOptions(exploder);
+        if (options != null && options.knockback())
+            ExplosionRebalanceCommon.applyKnockback(target, exploder, options.radius(), Config.CONFIG);
     }
 }
