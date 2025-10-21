@@ -1,6 +1,7 @@
 package org.dyvinia.explosionrebalance.mixin;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
@@ -13,24 +14,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public class EntityMixin {
     @Inject(method = "onExplosionHit", at = @At("HEAD"))
-    private void addExplosionKnockback(Entity entity, CallbackInfo ci) {
-        Entity thisEntity = (Entity)(Object)this;
+    private void addExplosionKnockback(Entity exploder, CallbackInfo ci) {
+        if (!((Entity)(Object)this instanceof LivingEntity target))
+            return;
 
-        if (entity instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get()) {
-            ExplosionRebalanceCommon.applyKnockback(
-                    thisEntity,
-                    creeper,
-                    (creeper.isPowered() ? 2.0f : 1.0f) * 4.0f,
-                    Config.CONFIG
-            );
-        }
-        else if (!(thisEntity instanceof PrimedTnt) && entity instanceof PrimedTnt primedTnt && Config.CONFIG.enableTNTKnockback.get()) {
-            ExplosionRebalanceCommon.applyKnockback(
-                    thisEntity,
-                    primedTnt,
-                    16.0f,
-                    Config.CONFIG
-            );
-        }
+        float radius = -1;
+
+        if (exploder instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get())
+            radius = (creeper.isPowered() ? 2f : 1f) * 4f;
+        else if (exploder instanceof PrimedTnt && Config.CONFIG.enableTNTKnockback.get())
+            radius = 16f;
+
+        if (radius > 0)
+            ExplosionRebalanceCommon.applyKnockback(target, exploder, radius, Config.CONFIG);
     }
 }
