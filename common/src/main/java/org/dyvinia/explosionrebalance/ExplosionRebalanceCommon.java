@@ -1,5 +1,8 @@
 package org.dyvinia.explosionrebalance;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import org.dyvinia.explosionrebalance.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Items;
@@ -27,5 +30,8 @@ public class ExplosionRebalanceCommon {
         }
     }
 
-
+    public static void safeExplosion(Level level, Entity sourceEntity, float radius) {
+        Explosion explosion = new Explosion(level, sourceEntity, sourceEntity.getX(), sourceEntity.getY(), sourceEntity.getZ(), radius, false,  Explosion.BlockInteraction.KEEP);
+        explosion.explode();
+    }
 }
