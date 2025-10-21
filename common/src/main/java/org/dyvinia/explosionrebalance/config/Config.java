@@ -7,7 +7,7 @@ public class Config {
     public static final Config CONFIG;
     public static final ModConfigSpec CONFIG_SPEC;
 
-    public final ModConfigSpec.BooleanValue disableGriefing;
+    public final ModConfigSpec.BooleanValue disableCreeperGriefing;
 
     public final ModConfigSpec.ConfigValue<Double> knockbackMult;
     public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
@@ -16,7 +16,7 @@ public class Config {
 
 
     private Config(ModConfigSpec.Builder builder) {
-        disableGriefing = builder
+        disableCreeperGriefing = builder
                 .comment("\n Prevents creeper explosions from breaking blocks. \n Default: true")
                 .define("disableGriefing", true);
 

@@ -2,7 +2,9 @@ package org.dyvinia.explosionrebalance;
 
 
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -21,14 +23,31 @@ public class ExplosionRebalance {
         container.registerConfig(ModConfig.Type.SERVER, Config.CONFIG_SPEC);
 
         NeoForge.EVENT_BUS.addListener(ExplosionRebalance::onExplosionStart);
+        NeoForge.EVENT_BUS.addListener(ExplosionRebalance::onExplosionDetonate);
     }
 
     public static void onExplosionStart(ExplosionEvent.Start event) {
-        if (Config.CONFIG.disableGriefing.get() && event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
+        if (Config.CONFIG.disableCreeperGriefing.get() && event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
             event.setCanceled(true);
 
             Explosion explosion = new Explosion(creeper.level(), creeper, creeper.getX(), creeper.getY(), creeper.getZ(), (creeper.isPowered() ? 2.0f : 1.0f) * 3.0f, false,  Explosion.BlockInteraction.KEEP);
             explosion.explode();
         }
+    }
+
+    public static void onExplosionDetonate(ExplosionEvent.Detonate event) {
+        event.getAffectedEntities().forEach(entity -> {
+            if (event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
+                ExplosionRebalanceCommon.applyKnockback(
+                        entity,
+                        creeper,
+                        (creeper.isPowered() ? 2.0f : 1.0f) * 4.0f,
+                        Config.CONFIG.falloffExponent.get(),
+                        Config.CONFIG.knockbackMult.get(),
+                        Config.CONFIG.playerKnockbackMult.get(),
+                        Config.CONFIG.knockbackUp.get()
+                );
+            }
+        });
     }
 }

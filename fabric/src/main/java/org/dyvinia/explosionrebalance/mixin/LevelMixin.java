@@ -25,7 +25,7 @@ public class LevelMixin {
     private void explode(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
         boolean isSafe = false;
 
-        if (Config.CONFIG.disableGriefing.get() && pSource instanceof Creeper)
+        if (Config.CONFIG.disableCreeperGriefing.get() && pSource instanceof Creeper)
             isSafe = true;
 
         if (isSafe) {
