@@ -8,6 +8,7 @@ public class Config {
     public static final ModConfigSpec CONFIG_SPEC;
 
     public final ModConfigSpec.BooleanValue disableCreeperGriefing;
+    public final ModConfigSpec.BooleanValue enableCreeperKnockback;
 
     public final ModConfigSpec.ConfigValue<Double> knockbackMult;
     public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
@@ -16,24 +17,27 @@ public class Config {
 
 
     private Config(ModConfigSpec.Builder builder) {
+        builder.comment(" ~~ Creeper ~~");
         disableCreeperGriefing = builder
-                .comment("\n Prevents creeper explosions from breaking blocks. \n Default: true")
-                .define("disableGriefing", true);
+                .comment(" Prevents creeper explosions from breaking blocks. \n Default: true")
+                .define("disableCreeperGriefing", true);
+        enableCreeperKnockback = builder
+                .comment(" Enables extra knockback for creeper explosions. \n Default: true")
+                .define("enableCreeperKnockback", true);
 
+
+        builder.comment("\n ~~ Knockback ~~");
         knockbackMult = builder
-                .comment("\n Multiplier for extra knockback caused by the explosion.\n Set to 0.0 for vanilla behavior.\n Default: 4.0")
+                .comment(" Multiplier for extra knockback caused by the explosion.\n Set to 0.0 for vanilla behavior.\n Default: 4.0")
                 .define("knockbackMult", 4.0);
-
         playerKnockbackMult = builder
-                .comment("\n Multiplier for extra knockback caused by the explosion to players.\n Set to -1.0 to default to the value of knockbackMult.\n Default: 3.5")
+                .comment(" Multiplier for extra knockback caused by the explosion to players.\n Set to -1.0 to default to the value of knockbackMult.\n Default: 3.5")
                 .define("playerKnockbackMult", 3.5);
-
         knockbackUp = builder
-                .comment("\n Adjusts the upward velocity added by the explosion as part of its knockback.\n Default: 0.1")
+                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.\n Default: 0.1")
                 .define("knockbackUp", 0.1);
-
         falloffExponent = builder
-                .comment("\n Exponent used for calculating the falloff.\n Default: 2.5")
+                .comment(" Exponent used for calculating the falloff.\n Default: 2.5")
                 .define("falloffExponent", 2.5);
     }
 

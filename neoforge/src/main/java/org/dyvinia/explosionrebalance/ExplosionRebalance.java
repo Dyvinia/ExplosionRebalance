@@ -37,15 +37,12 @@ public class ExplosionRebalance {
 
     public static void onExplosionDetonate(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
-            if (event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
+            if (event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get()) {
                 ExplosionRebalanceCommon.applyKnockback(
                         entity,
                         creeper,
                         (creeper.isPowered() ? 2.0f : 1.0f) * 4.0f,
-                        Config.CONFIG.falloffExponent.get(),
-                        Config.CONFIG.knockbackMult.get(),
-                        Config.CONFIG.playerKnockbackMult.get(),
-                        Config.CONFIG.knockbackUp.get()
+                        Config.CONFIG
                 );
             }
         });
