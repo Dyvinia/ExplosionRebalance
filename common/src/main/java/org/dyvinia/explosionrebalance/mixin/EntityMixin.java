@@ -4,6 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ public class EntityMixin {
 
         if (exploder instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get())
             radius = (creeper.isPowered() ? 2f : 1f) * 4f;
-        else if (exploder instanceof PrimedTnt && Config.CONFIG.enableTNTKnockback.get())
+        else if ((exploder instanceof PrimedTnt || exploder instanceof MinecartTNT) && Config.CONFIG.enableTNTKnockback.get())
             radius = 16f;
 
         if (radius > 0)
