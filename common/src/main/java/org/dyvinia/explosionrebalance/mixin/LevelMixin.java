@@ -21,7 +21,7 @@ public class LevelMixin {
     private void overrideExplosion(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
         ExplosionOptions options = ExplosionOptions.from(pSource);
         if (options != null && !options.griefing()) {
-            ParticleOptions particles = pRadius >= 2.0f ? pLargeExplosionParticles : pSmallExplosionParticles;
+            ParticleOptions particles = pRadius >= 2f ? pLargeExplosionParticles : pSmallExplosionParticles;
 
             Explosion explosion = new Explosion(
                     (Level) (Object) this,

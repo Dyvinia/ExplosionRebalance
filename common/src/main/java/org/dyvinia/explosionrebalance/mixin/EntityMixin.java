@@ -3,7 +3,6 @@ package org.dyvinia.explosionrebalance.mixin;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
-import org.dyvinia.explosionrebalance.config.Config;
 import org.dyvinia.explosionrebalance.util.ExplosionOptions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +18,6 @@ public class EntityMixin {
 
         ExplosionOptions options = ExplosionOptions.from(exploder);
         if (options != null && options.knockback())
-            ExplosionRebalanceCommon.applyKnockback(target, exploder, options.radius(), Config.CONFIG);
+            ExplosionRebalanceCommon.addKnockback(target, exploder, options);
     }
 }
