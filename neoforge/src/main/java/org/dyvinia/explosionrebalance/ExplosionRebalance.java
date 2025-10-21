@@ -1,10 +1,10 @@
 package org.dyvinia.explosionrebalance;
 
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -27,21 +27,36 @@ public class ExplosionRebalance {
     }
 
     public static void onExplosionStart(ExplosionEvent.Start event) {
-        if (Config.CONFIG.disableCreeperGriefing.get() && event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
+        Entity entity = event.getExplosion().getDirectSourceEntity();
+
+        if (Config.CONFIG.disableCreeperGriefing.get() && entity instanceof Creeper)
+            event.setCanceled(true);
+        else if (Config.CONFIG.disableTNTGriefing.get() && entity instanceof PrimedTnt)
             event.setCanceled(true);
 
-            Explosion explosion = new Explosion(creeper.level(), creeper, creeper.getX(), creeper.getY(), creeper.getZ(), (creeper.isPowered() ? 2.0f : 1.0f) * 3.0f, false,  Explosion.BlockInteraction.KEEP);
+        if (event.isCanceled()) {
+            Explosion explosion = new Explosion(entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), event.getExplosion().radius(), false,  Explosion.BlockInteraction.KEEP);
             explosion.explode();
         }
     }
 
     public static void onExplosionDetonate(ExplosionEvent.Detonate event) {
         event.getAffectedEntities().forEach(entity -> {
-            if (event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get()) {
+            Entity exploder = event.getExplosion().getDirectSourceEntity();
+
+            if (exploder instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get()) {
                 ExplosionRebalanceCommon.applyKnockback(
                         entity,
                         creeper,
                         (creeper.isPowered() ? 2.0f : 1.0f) * 4.0f,
+                        Config.CONFIG
+                );
+            }
+            else if (!(entity instanceof PrimedTnt) && exploder instanceof PrimedTnt primedTnt && Config.CONFIG.enableTNTKnockback.get()) {
+                ExplosionRebalanceCommon.applyKnockback(
+                        entity,
+                        primedTnt,
+                        16.0f,
                         Config.CONFIG
                 );
             }

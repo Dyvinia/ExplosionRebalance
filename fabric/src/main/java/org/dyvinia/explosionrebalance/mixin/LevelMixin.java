@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
@@ -25,6 +26,8 @@ public class LevelMixin {
         boolean isSafe = false;
 
         if (Config.CONFIG.disableCreeperGriefing.get() && pSource instanceof Creeper)
+            isSafe = true;
+        else if (Config.CONFIG.disableTNTGriefing.get() && pSource instanceof PrimedTnt)
             isSafe = true;
 
         if (isSafe) {
