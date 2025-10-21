@@ -29,9 +29,4 @@ public class ExplosionRebalanceCommon {
             Constants.LOG.info("Hello to explosionrebalance");
         }
     }
-
-    public static void safeExplosion(Level level, Entity sourceEntity, float radius) {
-        Explosion explosion = new Explosion(level, sourceEntity, sourceEntity.getX(), sourceEntity.getY(), sourceEntity.getZ(), radius, false,  Explosion.BlockInteraction.KEEP);
-        explosion.explode();
-    }
 }

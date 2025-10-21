@@ -38,8 +38,7 @@ public class Config {
     }
 
     static {
-        Pair<Config, ModConfigSpec> pair =
-                new ModConfigSpec.Builder().configure(Config::new);
+        Pair<Config, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(Config::new);
 
         CONFIG = pair.getLeft();
         CONFIG_SPEC = pair.getRight();

@@ -2,6 +2,7 @@ package org.dyvinia.explosionrebalance;
 
 
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.level.Explosion;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -25,7 +26,9 @@ public class ExplosionRebalance {
     public static void onExplosionStart(ExplosionEvent.Start event) {
         if (Config.CONFIG.disableGriefing.get() && event.getExplosion().getDirectSourceEntity() instanceof Creeper creeper) {
             event.setCanceled(true);
-            ExplosionRebalanceCommon.safeExplosion(creeper.level(),  creeper, (creeper.isPowered() ? 2.0f : 1.0f) * 3.0f);
+
+            Explosion explosion = new Explosion(creeper.level(), creeper, creeper.getX(), creeper.getY(), creeper.getZ(), (creeper.isPowered() ? 2.0f : 1.0f) * 3.0f, false,  Explosion.BlockInteraction.KEEP);
+            explosion.explode();
         }
     }
 }

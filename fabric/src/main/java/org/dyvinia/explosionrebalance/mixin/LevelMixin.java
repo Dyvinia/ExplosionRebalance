@@ -22,9 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LevelMixin {
 
     @Inject(method = "explode(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Level$ExplosionInteraction;ZLnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/Holder;)Lnet/minecraft/world/level/Explosion;", at = @At("HEAD"), cancellable = true)
-    private void expl(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
-        if (Config.CONFIG.disableGriefing.get() && pSource instanceof Creeper creeper) {
-            Explosion explosion = new Explosion((Level) (Object) this, creeper, pDamageSource, pDamageCalculator, creeper.getX(), creeper.getY(), creeper.getZ(), pRadius, false, Explosion.BlockInteraction.KEEP, ParticleTypes.EXPLOSION_EMITTER, ParticleTypes.EXPLOSION_EMITTER, pExplosionSound);
+    private void explode(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
+        boolean isSafe = false;
+
+        if (Config.CONFIG.disableGriefing.get() && pSource instanceof Creeper)
+            isSafe = true;
+
+        if (isSafe) {
+            Explosion explosion = new Explosion((Level) (Object) this, pSource, pDamageSource, pDamageCalculator, pSource.getX(), pSource.getY(), pSource.getZ(), pRadius, false, Explosion.BlockInteraction.KEEP, ParticleTypes.EXPLOSION_EMITTER, ParticleTypes.EXPLOSION_EMITTER, pExplosionSound);
             explosion.explode();
             explosion.finalizeExplosion(true);
             cir.setReturnValue(explosion);
