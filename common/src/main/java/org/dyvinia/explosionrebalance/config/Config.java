@@ -22,35 +22,44 @@ public class Config {
     private Config(ModConfigSpec.Builder builder) {
         builder.comment(" ~~ Creeper ~~");
         disableCreeperGriefing = builder
-                .comment(" Prevents creeper explosions from breaking blocks. \n Default: true")
+                .comment(" Prevents creeper explosions from breaking blocks.")
+                .comment(" Default: true")
                 .define("disableCreeperGriefing", true);
         enableCreeperKnockback = builder
-                .comment(" Enables extra knockback for creeper explosions. \n Default: true")
+                .comment(" Enables extra knockback for creeper explosions.")
+                .comment(" Default: true")
                 .define("enableCreeperKnockback", true);
 
         builder.comment("");
         builder.comment(" ~~ TNT ~~");
         disableTNTGriefing = builder
-                .comment(" Prevents TNT explosions from breaking blocks. \n Default: false")
+                .comment(" Prevents TNT explosions from breaking blocks.")
+                .comment(" Default: false")
                 .define("disableTNTGriefing", false);
         enableTNTKnockback = builder
-                .comment(" Enables extra knockback for TNT explosions. \n Default: true")
+                .comment(" Enables extra knockback for TNT explosions.")
+                .comment(" Default: true")
                 .define("enableTNTKnockback", true);
 
 
         builder.comment("");
         builder.comment(" ~~ Knockback ~~");
         knockbackMult = builder
-                .comment(" Multiplier for extra knockback caused by the explosion.\n Set to 0.0 for vanilla behavior.\n Default: 4.0")
+                .comment(" Multiplier for extra knockback caused by the explosion.\n Set to 0.0 for vanilla behavior.")
+                .comment(" Default: 4.0")
                 .define("knockbackMult", 4.0);
         playerKnockbackMult = builder
-                .comment(" Multiplier for extra knockback caused by the explosion to players.\n Set to -1.0 to default to the value of knockbackMult.\n Default: 3.5")
+                .comment(" Multiplier for extra knockback caused by the explosion to players.")
+                .comment(" Set to -1.0 to default to the value of knockbackMult.")
+                .comment(" Default: 3.5")
                 .define("playerKnockbackMult", 3.5);
         knockbackUp = builder
-                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.\n Default: 0.1")
+                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.")
+                .comment(" Default: 0.1")
                 .define("knockbackUp", 0.1);
         falloffExponent = builder
-                .comment(" Exponent used for calculating the falloff.\n Default: 2.5")
+                .comment(" Exponent used for calculating the falloff.")
+                .comment(" Default: 2.5")
                 .define("falloffExponent", 2.5);
     }
 

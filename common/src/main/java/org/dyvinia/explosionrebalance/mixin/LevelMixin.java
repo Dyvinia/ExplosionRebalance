@@ -2,7 +2,6 @@ package org.dyvinia.explosionrebalance.mixin;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -22,18 +21,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Level.class)
 public class LevelMixin {
     @Inject(method = "explode(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Level$ExplosionInteraction;ZLnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/Holder;)Lnet/minecraft/world/level/Explosion;", at = @At("HEAD"), cancellable = true)
-    private void explode(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
-        boolean isSafe = false;
+    private void overrideExplosion(@Nullable Entity pSource, @Nullable DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, boolean pSpawnParticles, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfoReturnable<Explosion> cir) {
+        boolean override = false;
 
         if (Config.CONFIG.disableCreeperGriefing.get() && pSource instanceof Creeper)
-            isSafe = true;
+            override = true;
         else if (Config.CONFIG.disableTNTGriefing.get() && pSource instanceof PrimedTnt)
-            isSafe = true;
+            override = true;
 
-        if (isSafe) {
-            Explosion explosion = new Explosion((Level) (Object) this, pSource, pDamageSource, pDamageCalculator, pSource.getX(), pSource.getY(), pSource.getZ(), pRadius, false, Explosion.BlockInteraction.KEEP, ParticleTypes.EXPLOSION_EMITTER, ParticleTypes.EXPLOSION_EMITTER, pExplosionSound);
+        if (override) {
+            ParticleOptions particles = pRadius >= 2.0f ? pLargeExplosionParticles : pSmallExplosionParticles;
+
+            Explosion explosion = new Explosion((Level) (Object) this, pSource, pDamageSource, pDamageCalculator, pSource.getX(), pSource.getY(), pSource.getZ(), pRadius, false, Explosion.BlockInteraction.KEEP, particles, particles, pExplosionSound);
             explosion.explode();
             explosion.finalizeExplosion(true);
+
             cir.setReturnValue(explosion);
             cir.cancel();
         }

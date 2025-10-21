@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public class EntityMixin {
     @Inject(method = "onExplosionHit", at = @At("HEAD"))
-    private void explode(Entity entity, CallbackInfo ci) {
+    private void addExplosionKnockback(Entity entity, CallbackInfo ci) {
         Entity thisEntity = (Entity)(Object)this;
 
         if (entity instanceof Creeper creeper && Config.CONFIG.enableCreeperKnockback.get()) {
