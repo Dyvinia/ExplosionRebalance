@@ -18,6 +18,7 @@ public class Config {
     public final ModConfigSpec.ConfigValue<Double> knockbackStrength;
     public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
     public final ModConfigSpec.ConfigValue<Double> knockbackUp;
+
     public final ModConfigSpec.ConfigValue<Double> falloffExponent;
     public final ModConfigSpec.ConfigValue<Double> falloffExtension;
 

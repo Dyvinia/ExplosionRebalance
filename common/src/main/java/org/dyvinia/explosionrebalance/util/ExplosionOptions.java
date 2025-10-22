@@ -7,6 +7,8 @@ import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public record ExplosionOptions(
         boolean griefing,
         boolean knockback,
@@ -32,12 +34,17 @@ public record ExplosionOptions(
 
     @Nullable
     public static ExplosionOptions from(@Nullable Entity ent) {
+        return from(ent, null);
+    }
+
+    @Nullable
+    public static ExplosionOptions from(@Nullable Entity ent, @Nullable Float radius) {
         if (ent instanceof Creeper creeper) {
             return new ExplosionOptions(
                     !Config.CONFIG.disableCreeperGriefing.get(),
                     Config.CONFIG.enableCreeperKnockback.get(),
                     Config.CONFIG.creeperKnockbackMult.get(),
-                    (creeper.isPowered() ? 2f : 1f) * 3f
+                    Optional.ofNullable(radius).orElse((creeper.isPowered() ? 2f : 1f) * 3f)
             );
         }
         else if (ent instanceof PrimedTnt || ent instanceof MinecartTNT) {
@@ -45,7 +52,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableTNTGriefing.get(),
                     Config.CONFIG.enableTNTKnockback.get(),
                     Config.CONFIG.tntKnockbackMult.get(),
-                    4f
+                    Optional.ofNullable(radius).orElse(4f)
             );
         }
 
