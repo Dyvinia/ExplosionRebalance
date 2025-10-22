@@ -36,7 +36,7 @@ public abstract class LevelMixin {
                     particles, particles,
                     pExplosionSound);
             explosion.explode();
-            explosion.finalizeExplosion(true);
+            explosion.finalizeExplosion(pSpawnParticles);
 
             cir.setReturnValue(explosion);
             cir.cancel();

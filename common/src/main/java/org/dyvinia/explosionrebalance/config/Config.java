@@ -7,6 +7,13 @@ public class Config {
     public static final Config CONFIG;
     public static final ModConfigSpec CONFIG_SPEC;
 
+    public final ModConfigSpec.ConfigValue<Double> knockbackStrength;
+    public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> knockbackUp;
+
+    public final ModConfigSpec.ConfigValue<Double> falloffExponent;
+    public final ModConfigSpec.ConfigValue<Double> falloffExtension;
+
     public final ModConfigSpec.BooleanValue disableCreeperGriefing;
     public final ModConfigSpec.BooleanValue enableCreeperKnockback;
     public final ModConfigSpec.ConfigValue<Double> creeperKnockbackMult;
@@ -15,15 +22,33 @@ public class Config {
     public final ModConfigSpec.BooleanValue enableTNTKnockback;
     public final ModConfigSpec.ConfigValue<Double> tntKnockbackMult;
 
-    public final ModConfigSpec.ConfigValue<Double> knockbackStrength;
-    public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
-    public final ModConfigSpec.ConfigValue<Double> knockbackUp;
-
-    public final ModConfigSpec.ConfigValue<Double> falloffExponent;
-    public final ModConfigSpec.ConfigValue<Double> falloffExtension;
-
-
     private Config(ModConfigSpec.Builder builder) {
+        builder.comment(" Controls aspects of the added knockback").push("Knockback");
+        knockbackStrength = builder
+                .comment(" Strength of extra knockback caused by the explosion.")
+                .comment(" Default: 3.0")
+                .define("KnockbackStrength", 3.0);
+        playerKnockbackMult = builder
+                .comment(" Multiplier of extra knockback caused by the explosion to players.")
+                .comment(" Default: 0.9")
+                .define("PlayerKnockbackMultiplier", 0.9);
+        knockbackUp = builder
+                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.")
+                .comment(" Default: 0.1")
+                .define("KnockbackUp", 0.1);
+        builder.pop();
+
+        builder.comment(" Controls the falloff used for knockback and damage").push("Falloff");
+        falloffExponent = builder
+                .comment(" Exponent used for calculating the falloff.")
+                .comment(" Default: 2.0")
+                .define("FalloffExponent", 2.0);
+        falloffExtension = builder
+                .comment(" Multiplies the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
+                .comment(" Default: 2.5")
+                .define("FalloffExtension", 2.5);
+        builder.pop();
+
         builder.comment(" Options for different explosions").push("Explosions");
 
         builder.push("Creeper");
@@ -56,32 +81,6 @@ public class Config {
                 .define("TNTKnockbackMultiplier", 1.25);
         builder.pop();
 
-        builder.pop();
-
-        builder.comment(" Controls aspects of the added knockback").push("Knockback");
-        knockbackStrength = builder
-                .comment(" Strength of extra knockback caused by the explosion.")
-                .comment(" Default: 3.0")
-                .define("KnockbackStrength", 3.0);
-        playerKnockbackMult = builder
-                .comment(" Multiplier of extra knockback caused by the explosion to players.")
-                .comment(" Default: 0.9")
-                .define("PlayerKnockbackMultiplier", 0.9);
-        knockbackUp = builder
-                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.")
-                .comment(" Default: 0.1")
-                .define("KnockbackUp", 0.1);
-        builder.pop();
-
-        builder.comment(" Controls the falloff used for knockback and damage").push("Falloff");
-        falloffExponent = builder
-                .comment(" Exponent used for calculating the falloff.")
-                .comment(" Default: 2.0")
-                .define("FalloffExponent", 2.0);
-        falloffExtension = builder
-                .comment(" Multiplies the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
-                .comment(" Default: 2.5")
-                .define("FalloffExtension", 2.5);
         builder.pop();
     }
 
