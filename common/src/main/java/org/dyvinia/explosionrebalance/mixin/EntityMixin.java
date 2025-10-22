@@ -38,6 +38,4 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
     public ExplosionOptions explosionRebalance$getExplosionOptions() {
         return explosionRebalance$explosionOptions;
     }
-
-
 }

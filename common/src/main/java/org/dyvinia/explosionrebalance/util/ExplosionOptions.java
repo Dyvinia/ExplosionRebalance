@@ -54,7 +54,7 @@ public record ExplosionOptions(
                     Config.CONFIG.tntKnockbackMult.get(),
                     Optional.ofNullable(radius).orElse(4f)
             );
-        }
+        } 
 
         return null;
     }
