@@ -49,8 +49,8 @@ public class Config {
                 .define("FalloffExponent", 2.0);
         falloffExtension = builder
                 .comment(" Multiplies the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
-                .comment(" Default: 2.5")
-                .define("FalloffExtension", 2.5);
+                .comment(" Default: 0.5")
+                .define("FalloffExtension", 0.5);
         builder.pop();
 
         builder.comment(" Options for different explosions").push("Explosions");
