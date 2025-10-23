@@ -1,6 +1,7 @@
 package org.dyvinia.explosionrebalance.util;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.projectile.Fireball;
@@ -52,6 +53,15 @@ public record ExplosionOptions(
                     Config.CONFIG.creeperKnockbackMult.get(),
                     Config.CONFIG.creeperDamageMult.get(),
                     Optional.ofNullable(radius).orElse((creeper.isPowered() ? 2f : 1f) * 3f)
+            );
+        }
+        else if (ent instanceof EndCrystal) {
+            return new ExplosionOptions(
+                    !Config.CONFIG.disableEndCrystalGriefing.get(),
+                    Config.CONFIG.enableEndCrystalKnockback.get(),
+                    Config.CONFIG.endCrystalKnockbackMult.get(),
+                    Config.CONFIG.endCrystalDamageMult.get(),
+                    Optional.ofNullable(radius).orElse(6f)
             );
         }
         else if (ent instanceof Fireball) {

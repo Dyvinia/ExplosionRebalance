@@ -19,6 +19,11 @@ public class Config {
     public final ModConfigSpec.ConfigValue<Double> creeperKnockbackMult;
     public final ModConfigSpec.ConfigValue<Double> creeperDamageMult;
 
+    public final ModConfigSpec.BooleanValue disableEndCrystalGriefing;
+    public final ModConfigSpec.BooleanValue enableEndCrystalKnockback;
+    public final ModConfigSpec.ConfigValue<Double> endCrystalKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> endCrystalDamageMult;
+
     public final ModConfigSpec.BooleanValue disableFireballGriefing;
     public final ModConfigSpec.BooleanValue enableFireballKnockback;
     public final ModConfigSpec.ConfigValue<Double> fireballKnockbackMult;
@@ -51,9 +56,9 @@ public class Config {
                 .comment(" Default: 2.0")
                 .define("FalloffExponent", 2.0);
         falloffExtension = builder
-                .comment(" Multiplies the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
-                .comment(" Default: 0.5")
-                .define("FalloffExtension", 0.5);
+                .comment(" Adds to the radius when calculating the falloff. Allows for entities near the edge of the explosion to still get some knockback")
+                .comment(" Default: 1.0")
+                .define("FalloffExtension", 1.0);
         builder.pop();
 
         builder.comment(" Controls aspects of different types of explosions").push("Explosions");
@@ -75,6 +80,25 @@ public class Config {
                 .comment(" Multiplier for the total damage caused by creeper explosions.")
                 .comment(" Default: 1.0")
                 .define("CreeperDamageMultiplier", 1.0);
+        builder.pop();
+
+        builder.push("EndCrystal");
+        disableEndCrystalGriefing = builder
+                .comment(" Prevents end crystal explosions from breaking blocks and setting blocks on fire.")
+                .comment(" Default: false")
+                .define("DisableEndCrystalGriefing", false);
+        enableEndCrystalKnockback = builder
+                .comment(" Enables extra knockback for end crystal explosions.")
+                .comment(" Default: true")
+                .define("EnableEndCrystalKnockback", true);
+        endCrystalKnockbackMult = builder
+                .comment(" Multiplier for extra knockback caused by end crystal explosions.")
+                .comment(" Default: 1.0")
+                .define("EndCrystalKnockbackMultiplier", 1.0);
+        endCrystalDamageMult = builder
+                .comment(" Multiplier for the total damage caused by end crystal explosions.")
+                .comment(" Default: 0.75")
+                .define("EndCrystalDamageMultiplier", 0.75);
         builder.pop();
 
         builder.push("Fireball");
