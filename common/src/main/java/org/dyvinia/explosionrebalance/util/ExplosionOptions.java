@@ -33,6 +33,10 @@ public record ExplosionOptions(
         return Config.CONFIG.falloffExtension.get();
     }
 
+    public double damageMultiplier() {
+        return 0.25;
+    }
+
     @Nullable
     public static ExplosionOptions from(@Nullable Entity ent) {
         return from(ent, null);
