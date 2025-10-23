@@ -9,7 +9,7 @@ public class Config {
 
     public final ModConfigSpec.ConfigValue<Double> knockbackStrength;
     public final ModConfigSpec.ConfigValue<Double> playerKnockbackMult;
-    public final ModConfigSpec.ConfigValue<Double> knockbackUp;
+    public final ModConfigSpec.ConfigValue<Double> upwardsKnockback;
 
     public final ModConfigSpec.ConfigValue<Double> falloffExponent;
     public final ModConfigSpec.ConfigValue<Double> falloffExtension;
@@ -44,10 +44,10 @@ public class Config {
                 .comment(" Multiplier of extra knockback caused by the explosion to players.")
                 .comment(" Default: 0.9")
                 .define("PlayerKnockbackMultiplier", 0.9);
-        knockbackUp = builder
-                .comment(" Adjusts the upward velocity added by the explosion as part of its knockback.")
+        upwardsKnockback = builder
+                .comment(" The amount of upward velocity added by the explosion as part of its knockback.")
                 .comment(" Default: 0.1")
-                .define("KnockbackUp", 0.1);
+                .define("UpwardsKnockback", 0.1);
         builder.pop();
 
         builder.comment(" Controls the falloff used for knockback and damage").push("Falloff");
@@ -93,12 +93,12 @@ public class Config {
                 .define("EnableEndCrystalKnockback", true);
         endCrystalKnockbackMult = builder
                 .comment(" Multiplier for extra knockback caused by end crystal explosions.")
-                .comment(" Default: 1.0")
-                .define("EndCrystalKnockbackMultiplier", 1.0);
+                .comment(" Default: 0.75")
+                .define("EndCrystalKnockbackMultiplier", 0.75);
         endCrystalDamageMult = builder
                 .comment(" Multiplier for the total damage caused by end crystal explosions.")
-                .comment(" Default: 0.75")
-                .define("EndCrystalDamageMultiplier", 0.75);
+                .comment(" Default: 1.0")
+                .define("EndCrystalDamageMultiplier", 1.0);
         builder.pop();
 
         builder.push("Fireball");

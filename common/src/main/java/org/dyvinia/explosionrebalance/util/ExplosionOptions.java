@@ -24,8 +24,8 @@ public record ExplosionOptions(
     public double playerKnockbackStrength() {
         return knockbackStrength() * Config.CONFIG.playerKnockbackMult.get();
     }
-    public double knockbackUp() {
-        return Config.CONFIG.knockbackUp.get();
+    public double upwardsKnockback() {
+        return Config.CONFIG.upwardsKnockback.get();
     }
 
     public double falloffExponent() {

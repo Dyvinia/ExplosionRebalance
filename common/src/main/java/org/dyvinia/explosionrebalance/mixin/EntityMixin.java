@@ -42,7 +42,7 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
                     knockback *= options.knockbackStrength();
 
                 Vec3 direction = target.position().subtract(exploder.position()).normalize();
-                Vec3 velocity = new Vec3(direction.x, options.knockbackUp(), direction.z);
+                Vec3 velocity = new Vec3(direction.x, options.upwardsKnockback(), direction.z);
                 velocity = velocity.scale(knockback);
                 target.addDeltaMovement(velocity);
             }
