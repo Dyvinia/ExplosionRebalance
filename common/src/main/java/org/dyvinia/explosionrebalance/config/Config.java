@@ -3,6 +3,8 @@ package org.dyvinia.explosionrebalance.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.List;
+
 public class Config {
     public static final Config CONFIG;
     public static final ModConfigSpec CONFIG_SPEC;
@@ -33,6 +35,8 @@ public class Config {
     public final ModConfigSpec.BooleanValue enableTNTKnockback;
     public final ModConfigSpec.ConfigValue<Double> tntKnockbackMult;
     public final ModConfigSpec.ConfigValue<Double> tntDamageMult;
+
+    public final ModConfigSpec.ConfigValue<List<? extends List<?>>> customExplosions;
 
     private Config(ModConfigSpec.Builder builder) {
         builder.comment(" Controls aspects of the added knockback").push("Knockback");
@@ -139,7 +143,24 @@ public class Config {
                 .define("TNTDamageMultiplier", 1.0);
         builder.pop();
 
+        builder.push("Custom");
+        customExplosions = builder
+                .comment(" Allows for adding explosions from other mods.")
+                .comment(" Format: [EntityID, DisableGriefing, EnableKnockback, KnockbackMultiplier, DamageMultiplier]")
+                .comment(" Example: [[\"entity.minecraft.creeper\", true, true, 1.0, 1.0], [\"entity.minecraft.tnt\", false, true, 1.25, 1.0]]")
+                .defineListAllowEmpty("Exploders", List.of(List.of()), () -> List.of("", false, true, 1.0, 1.0), Config::isValidExploder);
         builder.pop();
+
+        builder.pop();
+    }
+
+    private static boolean isValidExploder(Object o) {
+        if (!(o instanceof List<?> row) || row.size() != 5) return false;
+        return row.get(0) instanceof String
+                && row.get(1) instanceof Boolean
+                && row.get(2) instanceof Boolean
+                && row.get(3) instanceof Double
+                && row.get(4) instanceof Double;
     }
 
     static {

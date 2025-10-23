@@ -82,6 +82,21 @@ public record ExplosionOptions(
                     Optional.ofNullable(radius).orElse(4f)
             );
         }
+        else if (ent != null && !ent.getType().getDescriptionId().isEmpty()) {
+            var customExploder = Config.CONFIG.customExplosions.get().stream()
+                    .filter(o -> ent.getType().getDescriptionId().equalsIgnoreCase((String) o.getFirst()))
+                    .findFirst();
+
+            if (customExploder.isPresent()) {
+                return new ExplosionOptions(
+                        !(boolean) customExploder.get().get(1),
+                        (boolean) customExploder.get().get(2),
+                        (double) customExploder.get().get(3),
+                        (double) customExploder.get().get(4),
+                        Optional.ofNullable(radius).orElse(3f)
+                );
+            }
+        }
 
         return null;
     }
