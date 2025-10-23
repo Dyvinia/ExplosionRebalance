@@ -14,6 +14,7 @@ public record ExplosionOptions(
         boolean griefing,
         boolean knockback,
         double knockbackMult,
+        double damageMult,
         float radius
 ) {
     public double knockbackStrength() {
@@ -34,7 +35,7 @@ public record ExplosionOptions(
     }
 
     public double damageMultiplier() {
-        return 0.25;
+        return damageMult > 0 ? damageMult : 0.01;
     }
 
     @Nullable
@@ -49,6 +50,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableCreeperGriefing.get(),
                     Config.CONFIG.enableCreeperKnockback.get(),
                     Config.CONFIG.creeperKnockbackMult.get(),
+                    Config.CONFIG.creeperDamageMult.get(),
                     Optional.ofNullable(radius).orElse((creeper.isPowered() ? 2f : 1f) * 3f)
             );
         }
@@ -57,6 +59,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableFireballGriefing.get(),
                     Config.CONFIG.enableFireballKnockback.get(),
                     Config.CONFIG.fireballKnockbackMult.get(),
+                    Config.CONFIG.fireballDamageMult.get(),
                     Optional.ofNullable(radius).orElse(1f)
             );
         }
@@ -65,6 +68,7 @@ public record ExplosionOptions(
                     !Config.CONFIG.disableTNTGriefing.get(),
                     Config.CONFIG.enableTNTKnockback.get(),
                     Config.CONFIG.tntKnockbackMult.get(),
+                    Config.CONFIG.tntDamageMult.get(),
                     Optional.ofNullable(radius).orElse(4f)
             );
         }

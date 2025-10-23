@@ -17,14 +17,17 @@ public class Config {
     public final ModConfigSpec.BooleanValue disableCreeperGriefing;
     public final ModConfigSpec.BooleanValue enableCreeperKnockback;
     public final ModConfigSpec.ConfigValue<Double> creeperKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> creeperDamageMult;
 
     public final ModConfigSpec.BooleanValue disableFireballGriefing;
     public final ModConfigSpec.BooleanValue enableFireballKnockback;
     public final ModConfigSpec.ConfigValue<Double> fireballKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> fireballDamageMult;
 
     public final ModConfigSpec.BooleanValue disableTNTGriefing;
     public final ModConfigSpec.BooleanValue enableTNTKnockback;
     public final ModConfigSpec.ConfigValue<Double> tntKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> tntDamageMult;
 
     private Config(ModConfigSpec.Builder builder) {
         builder.comment(" Controls aspects of the added knockback").push("Knockback");
@@ -53,7 +56,7 @@ public class Config {
                 .define("FalloffExtension", 0.5);
         builder.pop();
 
-        builder.comment(" Options for different explosions").push("Explosions");
+        builder.comment(" Controls aspects of different types of explosions").push("Explosions");
 
         builder.push("Creeper");
         disableCreeperGriefing = builder
@@ -68,21 +71,29 @@ public class Config {
                 .comment(" Multiplier for extra knockback caused by creeper explosions.")
                 .comment(" Default: 1.0")
                 .define("CreeperKnockbackMultiplier", 1.0);
+        creeperDamageMult = builder
+                .comment(" Multiplier for the total damage caused by creeper explosions.")
+                .comment(" Default: 1.0")
+                .define("CreeperDamageMultiplier", 1.0);
         builder.pop();
 
         builder.push("Fireball");
         disableFireballGriefing = builder
-                .comment(" Prevents Fireball explosions from breaking blocks and setting blocks on fire.")
+                .comment(" Prevents fireball explosions from breaking blocks and setting blocks on fire.")
                 .comment(" Default: false")
                 .define("DisableFireballGriefing", false);
         enableFireballKnockback = builder
-                .comment(" Enables extra knockback for Fireball explosions.")
+                .comment(" Enables extra knockback for fireball explosions.")
                 .comment(" Default: true")
                 .define("EnableFireballKnockback", true);
         fireballKnockbackMult = builder
-                .comment(" Multiplier for extra knockback caused by Fireball explosions.")
+                .comment(" Multiplier for extra knockback caused by fireball explosions.")
                 .comment(" Default: 0.75")
                 .define("FireballKnockbackMultiplier", 0.75);
+        fireballDamageMult = builder
+                .comment(" Multiplier for the total damage caused by fireball explosions.")
+                .comment(" Default: 1.0")
+                .define("FireballDamageMultiplier", 1.0);
         builder.pop();
 
         builder.push("TNT");
@@ -98,6 +109,10 @@ public class Config {
                 .comment(" Multiplier for extra knockback caused by TNT explosions.")
                 .comment(" Default: 1.25")
                 .define("TNTKnockbackMultiplier", 1.25);
+        tntDamageMult = builder
+                .comment(" Multiplier for the total damage caused by TNT explosions.")
+                .comment(" Default: 1.0")
+                .define("TNTDamageMultiplier", 1.0);
         builder.pop();
 
         builder.pop();
