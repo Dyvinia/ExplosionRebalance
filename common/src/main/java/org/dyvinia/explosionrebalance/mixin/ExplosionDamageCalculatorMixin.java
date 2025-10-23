@@ -20,10 +20,10 @@ public abstract class ExplosionDamageCalculatorMixin {
 
         @Nullable ExplosionOptions options = ((IEntityExplosionOptions)exploder).explosionRebalance$getExplosionOptions();
         if (options == null)
-            options = ExplosionOptions.from(explosion.getDirectSourceEntity());
+            options = ExplosionOptions.from(exploder);
         if (options == null)
             return;
 
-        cir.setReturnValue(cir.getReturnValue() * (float) options.damageMultiplier());
+        cir.setReturnValue(cir.getReturnValue() * options.damageMultiplier());
     }
 }

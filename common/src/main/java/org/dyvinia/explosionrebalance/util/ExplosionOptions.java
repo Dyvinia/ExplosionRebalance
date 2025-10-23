@@ -34,8 +34,8 @@ public record ExplosionOptions(
         return Config.CONFIG.falloffExtension.get();
     }
 
-    public double damageMultiplier() {
-        return damageMult > 0 ? damageMult : 0.01;
+    public float damageMultiplier() {
+        return (float) (damageMult > 0 ? damageMult : 0.01);
     }
 
     @Nullable
