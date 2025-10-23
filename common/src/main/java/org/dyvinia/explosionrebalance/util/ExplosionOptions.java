@@ -3,6 +3,7 @@ package org.dyvinia.explosionrebalance.util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +48,14 @@ public record ExplosionOptions(
                     Optional.ofNullable(radius).orElse((creeper.isPowered() ? 2f : 1f) * 3f)
             );
         }
+        else if (ent instanceof Fireball) {
+            return new ExplosionOptions(
+                    !Config.CONFIG.disableFireballGriefing.get(),
+                    Config.CONFIG.enableFireballKnockback.get(),
+                    Config.CONFIG.fireballKnockbackMult.get(),
+                    Optional.ofNullable(radius).orElse(1f)
+            );
+        }
         else if (ent instanceof PrimedTnt || ent instanceof MinecartTNT) {
             return new ExplosionOptions(
                     !Config.CONFIG.disableTNTGriefing.get(),
@@ -54,7 +63,7 @@ public record ExplosionOptions(
                     Config.CONFIG.tntKnockbackMult.get(),
                     Optional.ofNullable(radius).orElse(4f)
             );
-        } 
+        }
 
         return null;
     }

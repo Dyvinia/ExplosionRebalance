@@ -18,6 +18,10 @@ public class Config {
     public final ModConfigSpec.BooleanValue enableCreeperKnockback;
     public final ModConfigSpec.ConfigValue<Double> creeperKnockbackMult;
 
+    public final ModConfigSpec.BooleanValue disableFireballGriefing;
+    public final ModConfigSpec.BooleanValue enableFireballKnockback;
+    public final ModConfigSpec.ConfigValue<Double> fireballKnockbackMult;
+
     public final ModConfigSpec.BooleanValue disableTNTGriefing;
     public final ModConfigSpec.BooleanValue enableTNTKnockback;
     public final ModConfigSpec.ConfigValue<Double> tntKnockbackMult;
@@ -64,6 +68,21 @@ public class Config {
                 .comment(" Multiplier for extra knockback caused by creeper explosions.")
                 .comment(" Default: 1.0")
                 .define("CreeperKnockbackMultiplier", 1.0);
+        builder.pop();
+
+        builder.push("Fireball");
+        disableFireballGriefing = builder
+                .comment(" Prevents Fireball explosions from breaking blocks and setting blocks on fire.")
+                .comment(" Default: false")
+                .define("DisableFireballGriefing", false);
+        enableFireballKnockback = builder
+                .comment(" Enables extra knockback for Fireball explosions.")
+                .comment(" Default: true")
+                .define("EnableFireballKnockback", true);
+        fireballKnockbackMult = builder
+                .comment(" Multiplier for extra knockback caused by Fireball explosions.")
+                .comment(" Default: 0.75")
+                .define("FireballKnockbackMultiplier", 0.75);
         builder.pop();
 
         builder.push("TNT");
