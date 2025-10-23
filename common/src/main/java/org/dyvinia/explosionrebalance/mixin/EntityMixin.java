@@ -22,6 +22,7 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
         if (!((Entity)(Object)this instanceof LivingEntity target))
             return;
 
+        // i hate java this would be half as many lines and easier to read in c#....fml
         ExplosionOptions options = ((IEntityExplosionOptions) exploder).explosionRebalance$getExplosionOptions();
         if (options == null)
             options = ExplosionOptions.from(exploder);
