@@ -2,7 +2,8 @@ package org.dyvinia.explosionrebalance.mixin;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.dyvinia.explosionrebalance.ExplosionRebalanceCommon;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 import org.dyvinia.explosionrebalance.util.ExplosionOptions;
 import org.dyvinia.explosionrebalance.util.IEntityExplosionOptions;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,9 +25,26 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
         ExplosionOptions options = ((IEntityExplosionOptions) exploder).explosionRebalance$getExplosionOptions();
         if (options == null)
             options = ExplosionOptions.from(exploder);
+        if (options == null)
+            return;
 
-        if (options != null && options.knockback())
-            ExplosionRebalanceCommon.addKnockback(target, exploder, options);
+        if (options.knockback()) {
+            float distance = target.distanceTo(exploder);
+            double power = 1.0 - Math.pow(distance/(options.radius() * options.falloffExtension()), options.falloffExponent());
+
+            if (power > 0) {
+                double knockback = power;
+                if (options.playerKnockbackStrength() >= 0 && target instanceof Player)
+                    knockback *= options.playerKnockbackStrength();
+                else
+                    knockback *= options.knockbackStrength();
+
+                Vec3 direction = target.position().subtract(exploder.position()).normalize();
+                Vec3 velocity = new Vec3(direction.x, options.knockbackUp(), direction.z);
+                velocity = velocity.scale(knockback);
+                target.addDeltaMovement(velocity);
+            }
+        }
     }
 
     @Override
