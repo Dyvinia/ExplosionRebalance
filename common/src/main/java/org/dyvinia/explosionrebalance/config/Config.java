@@ -155,12 +155,14 @@ public class Config {
     }
 
     private static boolean isValidExploder(Object o) {
-        if (!(o instanceof List<?> row) || row.size() != 5) return false;
-        return row.get(0) instanceof String
+        if (!(o instanceof List<?> row))
+            return false;
+        return row.isEmpty() || (row.size() == 5
+                && row.get(0) instanceof String
                 && row.get(1) instanceof Boolean
                 && row.get(2) instanceof Boolean
                 && row.get(3) instanceof Double
-                && row.get(4) instanceof Double;
+                && row.get(4) instanceof Double);
     }
 
     static {
