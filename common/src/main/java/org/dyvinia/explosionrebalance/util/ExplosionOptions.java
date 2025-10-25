@@ -82,7 +82,10 @@ public record ExplosionOptions(
                     Optional.ofNullable(radius).orElse(4f)
             );
         }
-        else if (ent != null && !ent.getType().getDescriptionId().isEmpty()) {
+        else if (ent != null
+                && !ent.getType().getDescriptionId().isEmpty()
+                && !Config.CONFIG.customExplosions.get().isEmpty()
+                && !Config.CONFIG.customExplosions.get().getFirst().isEmpty()) {
             var customExploder = Config.CONFIG.customExplosions.get().stream()
                     .filter(o -> ent.getType().getDescriptionId().equalsIgnoreCase((String) o.getFirst()))
                     .findFirst();
