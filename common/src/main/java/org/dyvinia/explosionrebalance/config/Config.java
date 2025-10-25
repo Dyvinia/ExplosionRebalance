@@ -36,6 +36,16 @@ public class Config {
     public final ModConfigSpec.ConfigValue<Double> tntKnockbackMult;
     public final ModConfigSpec.ConfigValue<Double> tntDamageMult;
 
+    public final ModConfigSpec.BooleanValue disableWitherGriefing;
+    public final ModConfigSpec.BooleanValue enableWitherKnockback;
+    public final ModConfigSpec.ConfigValue<Double> witherKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> witherDamageMult;
+
+    public final ModConfigSpec.BooleanValue disableWitherSkullGriefing;
+    public final ModConfigSpec.BooleanValue enableWitherSkullKnockback;
+    public final ModConfigSpec.ConfigValue<Double> witherSkullKnockbackMult;
+    public final ModConfigSpec.ConfigValue<Double> witherSkullDamageMult;
+
     public final ModConfigSpec.ConfigValue<List<? extends List<?>>> customExplosions;
 
     private Config(ModConfigSpec.Builder builder) {
@@ -141,6 +151,48 @@ public class Config {
                 .comment(" Multiplier for the total damage caused by TNT explosions.")
                 .comment(" Default: 1.0")
                 .define("TNTDamageMultiplier", 1.0);
+        builder.pop();
+
+        builder.comment(" Wither").push("Wither");
+
+        builder.push("Spawn");
+        disableWitherGriefing = builder
+                .comment(" Prevents wither spawning explosions from breaking blocks.")
+                .comment(" Default: false")
+                .define("DisableWitherGriefing", false);
+        enableWitherKnockback = builder
+                .comment(" Enables extra knockback for wither spawning explosions.")
+                .comment(" Default: true")
+                .define("EnableWitherKnockback", true);
+        witherKnockbackMult = builder
+                .comment(" Multiplier for extra knockback caused by wither spawning explosions.")
+                .comment(" Default: 2.0")
+                .define("WitherKnockbackMultiplier", 2.0);
+        witherDamageMult = builder
+                .comment(" Multiplier for the total damage caused by wither spawning explosions.")
+                .comment(" Default: 1.0")
+                .define("WitherDamageMultiplier", 1.0);
+        builder.pop();
+
+        builder.push("Skull");
+        disableWitherSkullGriefing = builder
+                .comment(" Prevents wither skull explosions from breaking blocks.")
+                .comment(" Default: false")
+                .define("DisableWitherSkullGriefing", false);
+        enableWitherSkullKnockback = builder
+                .comment(" Enables extra knockback for wither skull explosions.")
+                .comment(" Default: true")
+                .define("EnableWitherSkullKnockback", true);
+        witherSkullKnockbackMult = builder
+                .comment(" Multiplier for extra knockback caused by wither skull explosions.")
+                .comment(" Default: 0.75")
+                .define("WitherSkullKnockbackMultiplier", 0.75);
+        witherSkullDamageMult = builder
+                .comment(" Multiplier for the total damage caused by wither skull explosions.")
+                .comment(" Default: 1.0")
+                .define("WitherSkullDamageMultiplier", 1.0);
+        builder.pop();
+
         builder.pop();
 
         builder.push("Custom");

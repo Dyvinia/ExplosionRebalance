@@ -2,9 +2,11 @@ package org.dyvinia.explosionrebalance.util;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.projectile.Fireball;
+import net.minecraft.world.entity.projectile.WitherSkull;
 import net.minecraft.world.entity.vehicle.MinecartTNT;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.jetbrains.annotations.Nullable;
@@ -80,6 +82,24 @@ public record ExplosionOptions(
                     Config.CONFIG.tntKnockbackMult.get(),
                     Config.CONFIG.tntDamageMult.get(),
                     Optional.ofNullable(radius).orElse(4f)
+            );
+        }
+        else if (ent instanceof WitherBoss) {
+            return new ExplosionOptions(
+                    !Config.CONFIG.disableWitherGriefing.get(),
+                    Config.CONFIG.enableWitherKnockback.get(),
+                    Config.CONFIG.witherKnockbackMult.get(),
+                    Config.CONFIG.witherDamageMult.get(),
+                    Optional.ofNullable(radius).orElse(7f)
+            );
+        }
+        else if (ent instanceof WitherSkull) {
+            return new ExplosionOptions(
+                    !Config.CONFIG.disableWitherSkullGriefing.get(),
+                    Config.CONFIG.enableWitherSkullKnockback.get(),
+                    Config.CONFIG.witherSkullKnockbackMult.get(),
+                    Config.CONFIG.witherSkullDamageMult.get(),
+                    Optional.ofNullable(radius).orElse(1f)
             );
         }
         else if (ent != null
