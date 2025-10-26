@@ -10,6 +10,6 @@ public class ExplosionRebalance implements ModInitializer {
     public void onInitialize() {
         ExplosionRebalanceCommon.init();
 
-        NeoForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.SERVER, Config.CONFIG_SPEC);
+        NeoForgeConfigRegistry.INSTANCE.register(Constants.MOD_ID, ModConfig.Type.COMMON, Config.CONFIG_SPEC);
     }
 }

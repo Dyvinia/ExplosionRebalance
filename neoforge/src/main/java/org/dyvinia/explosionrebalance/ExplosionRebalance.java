@@ -11,6 +11,6 @@ public class ExplosionRebalance {
     public ExplosionRebalance(ModContainer container) {
         ExplosionRebalanceCommon.init();
 
-        container.registerConfig(ModConfig.Type.SERVER, Config.CONFIG_SPEC);
+        container.registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
     }
 }
