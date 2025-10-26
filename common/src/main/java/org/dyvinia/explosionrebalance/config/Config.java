@@ -200,7 +200,7 @@ public class Config {
                 .comment(" Allows for adding explosions from other mods.")
                 .comment(" Format: [EntityID, DisableGriefing, EnableKnockback, KnockbackMultiplier, DamageMultiplier]")
                 .comment(" Example: [[\"entity.minecraft.creeper\", true, true, 1.0, 1.0], [\"entity.minecraft.tnt\", false, true, 1.25, 1.0]]")
-                .defineListAllowEmpty("Exploders", List.of(List.of()), () -> List.of("", false, true, 1.0, 1.0), Config::isValidExploder);
+                .defineList("Exploders", List.of(List.of()), () -> List.of("", false, true, 1.0, 1.0), Config::isValidExploder);
         builder.pop();
 
         builder.pop();
