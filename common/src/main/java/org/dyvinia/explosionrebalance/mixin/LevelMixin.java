@@ -1,11 +1,13 @@
 package org.dyvinia.explosionrebalance.mixin;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.particles.ExplosionParticleInfo;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.protocol.game.ClientboundExplodePacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Explosion;
@@ -25,8 +27,8 @@ import java.util.Optional;
 
 @Mixin(ServerLevel.class)
 public abstract class LevelMixin {
-    @Inject(method = "explode(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/damagesource/DamageSource;Lnet/minecraft/world/level/ExplosionDamageCalculator;DDDFZLnet/minecraft/world/level/Level$ExplosionInteraction;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/particles/ParticleOptions;Lnet/minecraft/core/Holder;)V", at = @At("HEAD"), cancellable = true)
-    private void overrideExplosion(@Nullable Entity pSource, DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, Holder<SoundEvent> pExplosionSound, CallbackInfo ci) {
+    @Inject(method = "explode", at = @At("HEAD"), cancellable = true)
+    private void overrideExplosion(@Nullable Entity pSource, DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, WeightedList<ExplosionParticleInfo> pBlockParticles, Holder<SoundEvent> pExplosionSound, CallbackInfo ci) {
         ServerLevel serverlevel = (ServerLevel) (Object) this;
         ExplosionOptions options = ExplosionOptions.from(pSource, pRadius);
         if (pSource == null || options == null)
@@ -37,23 +39,23 @@ public abstract class LevelMixin {
         // override explosion without griefing
         if (!options.griefing()) {
             ParticleOptions particles = pRadius >= 2f ? pLargeExplosionParticles : pSmallExplosionParticles;
-            Vec3 vec3 = new Vec3(pX, pY, pZ);
+            Vec3 center = new Vec3(pX, pY, pZ);
 
             ServerExplosion serverexplosion = new ServerExplosion(
                     serverlevel,
                     pSource, pDamageSource,
                     pDamageCalculator,
-                    vec3,
+                    center,
                     pRadius,
                     false,
                     Explosion.BlockInteraction.KEEP
             );
-            serverexplosion.explode();
+            int blockCount = serverexplosion.explode();
 
             for (ServerPlayer serverplayer : serverlevel.players()) {
-                if (serverplayer.distanceToSqr(vec3) < 4096.0) {
-                    Optional<Vec3> optional = Optional.ofNullable(serverexplosion.getHitPlayers().get(serverplayer));
-                    serverplayer.connection.send(new ClientboundExplodePacket(vec3, optional, particles, pExplosionSound));
+                if (serverplayer.distanceToSqr(center) < 4096.0) {
+                    Optional<Vec3> playerKnockback = Optional.ofNullable(serverexplosion.getHitPlayers().get(serverplayer));
+                    serverplayer.connection.send(new ClientboundExplodePacket(center, pRadius, blockCount, playerKnockback, particles, pExplosionSound, pBlockParticles));
                 }
             }
 
