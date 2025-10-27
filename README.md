@@ -5,10 +5,10 @@ Simple server-side mod (works in singleplayer as well) that gives you configurab
 
 ## Config
 
-The mod is highly configurable allowing you to tweak aspects of the knockback and falloff as well as settings for each different type of explosion. You are also able to configure explosions from other mods using the Explosions.Custom.Exploders config option.
+The mod is highly configurable allowing you to tweak aspects of the knockback and falloff as well as settings for each different type of explosion. You are also able to configure explosions from other mods using the `Explosions.Custom.Exploders` config option.
 
 <details>
-<summary>Click to see default config file</summary>
+<summary>Click to see the default config file</summary>
   
 ```toml
 # Controls aspects of the added knockback
