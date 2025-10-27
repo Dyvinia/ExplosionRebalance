@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ExplosionDamageCalculator.class)
 public abstract class ExplosionDamageCalculatorMixin {
     @Inject(method = "getEntityDamageAmount", at = @At("TAIL"), cancellable = true)
-    private void addExplosionDamage(Explosion explosion, Entity entity, CallbackInfoReturnable<Float> cir) {
+    private void addExplosionDamage(Explosion explosion, Entity entity, float seenPercent, CallbackInfoReturnable<Float> cir) {
         if (!(explosion.getDirectSourceEntity() instanceof Entity exploder))
             return;
 
