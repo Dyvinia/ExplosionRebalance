@@ -4,10 +4,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull;
+import net.minecraft.world.entity.vehicle.minecart.MinecartTNT;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.projectile.Fireball;
-import net.minecraft.world.entity.projectile.WitherSkull;
-import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.entity.projectile.hurtingprojectile.Fireball;
 import org.dyvinia.explosionrebalance.config.Config;
 import org.jetbrains.annotations.Nullable;
 
