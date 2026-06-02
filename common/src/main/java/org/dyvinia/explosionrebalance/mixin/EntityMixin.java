@@ -24,6 +24,8 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
             return;
 
         // i hate java this would be half as many lines and easier to read in c#....fml
+        if (exploder == null)
+            return;
         @Nullable ExplosionOptions options = ((IEntityExplosionOptions) exploder).explosionRebalance$getExplosionOptions();
         if (options == null)
             options = ExplosionOptions.from(exploder);
