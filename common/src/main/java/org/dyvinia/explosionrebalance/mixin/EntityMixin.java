@@ -19,21 +19,21 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
     private ExplosionOptions explosionRebalance$explosionOptions;
 
     @Inject(method = "onExplosionHit", at = @At("HEAD"))
-    private void addExplosionKnockback(Entity exploder, CallbackInfo ci) {
+    private void addExplosionKnockback(Entity explosionCausedBy, CallbackInfo ci) {
         if (!((Entity)(Object)this instanceof LivingEntity target))
             return;
 
         // i hate java this would be half as many lines and easier to read in c#....fml
-        if (exploder == null)
+        if (explosionCausedBy == null)
             return;
-        @Nullable ExplosionOptions options = ((IEntityExplosionOptions) exploder).explosionRebalance$getExplosionOptions();
+        @Nullable ExplosionOptions options = ((IEntityExplosionOptions) explosionCausedBy).explosionRebalance$getExplosionOptions();
         if (options == null)
-            options = ExplosionOptions.from(exploder);
+            options = ExplosionOptions.from(explosionCausedBy);
         if (options == null)
             return;
 
         if (options.knockback()) {
-            float distance = target.distanceTo(exploder);
+            float distance = target.distanceTo(explosionCausedBy);
             double power = 1.0 - Math.pow(distance/((options.radius() * 2.0) + options.falloffExtension()), options.falloffExponent());
 
             if (power > 0) {
@@ -43,7 +43,7 @@ public abstract class EntityMixin implements IEntityExplosionOptions {
                 else
                     knockback *= options.knockbackStrength();
 
-                Vec3 direction = target.position().subtract(exploder.position()).normalize();
+                Vec3 direction = target.position().subtract(explosionCausedBy.position()).normalize();
                 Vec3 velocity = new Vec3(direction.x, options.upwardsKnockback(), direction.z);
                 velocity = velocity.scale(knockback);
                 target.addDeltaMovement(velocity);

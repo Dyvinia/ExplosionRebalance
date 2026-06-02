@@ -28,25 +28,25 @@ import java.util.Optional;
 @Mixin(ServerLevel.class)
 public abstract class LevelMixin {
     @Inject(method = "explode", at = @At("HEAD"), cancellable = true)
-    private void overrideExplosion(@Nullable Entity pSource, DamageSource pDamageSource, @Nullable ExplosionDamageCalculator pDamageCalculator, double pX, double pY, double pZ, float pRadius, boolean pFire, Level.ExplosionInteraction pExplosionInteraction, ParticleOptions pSmallExplosionParticles, ParticleOptions pLargeExplosionParticles, WeightedList<ExplosionParticleInfo> pBlockParticles, Holder<SoundEvent> pExplosionSound, CallbackInfo ci) {
+    private void overrideExplosion(@Nullable Entity source, DamageSource damageSource, @Nullable ExplosionDamageCalculator damageCalculator, double x, double y, double z, float r, boolean fire, Level.ExplosionInteraction interactionType, ParticleOptions smallExplosionParticles, ParticleOptions largeExplosionParticles, WeightedList<ExplosionParticleInfo> blockParticles, Holder<SoundEvent> explosionSound, CallbackInfo ci) {
         ServerLevel serverlevel = (ServerLevel) (Object) this;
-        ExplosionOptions options = ExplosionOptions.from(pSource, pRadius);
-        if (pSource == null || options == null)
+        ExplosionOptions options = ExplosionOptions.from(source, r);
+        if (source == null || options == null)
             return;
 
-        ((IEntityExplosionOptions) pSource).explosionRebalance$setExplosionOptions(options);
+        ((IEntityExplosionOptions) source).explosionRebalance$setExplosionOptions(options);
 
         // override explosion without griefing
         if (!options.griefing()) {
-            ParticleOptions particles = pRadius >= 2f ? pLargeExplosionParticles : pSmallExplosionParticles;
-            Vec3 center = new Vec3(pX, pY, pZ);
+            ParticleOptions particles = r >= 2f ? largeExplosionParticles : smallExplosionParticles;
+            Vec3 center = new Vec3(x, y, z);
 
             ServerExplosion serverexplosion = new ServerExplosion(
                     serverlevel,
-                    pSource, pDamageSource,
-                    pDamageCalculator,
+                    source, damageSource,
+                    damageCalculator,
                     center,
-                    pRadius,
+                    r,
                     false,
                     Explosion.BlockInteraction.KEEP
             );
@@ -55,7 +55,7 @@ public abstract class LevelMixin {
             for (ServerPlayer serverplayer : serverlevel.players()) {
                 if (serverplayer.distanceToSqr(center) < 4096.0) {
                     Optional<Vec3> playerKnockback = Optional.ofNullable(serverexplosion.getHitPlayers().get(serverplayer));
-                    serverplayer.connection.send(new ClientboundExplodePacket(center, pRadius, blockCount, playerKnockback, particles, pExplosionSound, pBlockParticles));
+                    serverplayer.connection.send(new ClientboundExplodePacket(center, r, blockCount, playerKnockback, particles, explosionSound, blockParticles));
                 }
             }
 
